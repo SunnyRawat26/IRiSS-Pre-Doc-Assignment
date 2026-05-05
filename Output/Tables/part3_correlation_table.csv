@@ -1,7 +1,7 @@
 variable,zone_indicator,num_sezs,distance_to_chennai_km,coastal_district,population_density_per_sq_km,viirs_annual_mean
-zone_indicator,1,0.665,-0.231,-0.006,0.231,0.291
-num_sezs,0.665,1,-0.412,0.189,0.271,0.364
-distance_to_chennai_km,-0.231,-0.412,1,-0.192,-0.331,-0.399
-coastal_district,-0.006,0.189,-0.192,1,0.278,0.305
-population_density_per_sq_km,0.231,0.271,-0.331,0.278,1,0.991
-viirs_annual_mean,0.291,0.364,-0.399,0.305,0.991,1
+zone_indicator,1,0.644,-0.279,0.078,0.219,0.274
+num_sezs,0.644,1,-0.423,0.206,0.27,0.363
+distance_to_chennai_km,-0.279,-0.423,1,-0.192,-0.331,-0.399
+coastal_district,0.078,0.206,-0.192,1,0.278,0.305
+population_density_per_sq_km,0.219,0.27,-0.331,0.278,1,0.991
+viirs_annual_mean,0.274,0.363,-0.399,0.305,0.991,1

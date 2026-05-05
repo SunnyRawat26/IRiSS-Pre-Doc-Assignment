@@ -26,7 +26,11 @@ library(stringr)
 library(geodata)
 library(terra)
 
-here::i_am("Code/code.R")
+if (file.exists("Code/analysis.R")) {
+  here::i_am("Code/analysis.R")
+} else {
+  here::i_am("analysis.R")
+}
 
 # Create folders if they do not exist
 tables <- here("Output", "Tables")
@@ -43,6 +47,122 @@ stopifnot(dir.exists(tables))
 stopifnot(dir.exists(plots))
 stopifnot(dir.exists(processed))
 stopifnot(dir.exists(raw))
+
+# The assignment submission zip contains only the five requested files at
+# the zip root. In that flat layout, validate the submitted data and rebuild
+# the descriptive tables that do not require raw external files.
+flat_submission_mode <- all(file.exists(c(
+  here("analysis.R"),
+  here("sources.csv"),
+  here("zones.csv"),
+  here("analysis_units.csv")
+))) &&
+  !file.exists(here("Data", "raw", "viirs_annual_pc11dist.dta"))
+
+if (flat_submission_mode) {
+  message("Running flat submission validation mode.")
+  message("Full reconstruction requires raw SHRUG/GADM inputs; using submitted CSVs.")
+  
+  sources <- read_csv(here("sources.csv"), show_col_types = FALSE)
+  zones <- read_csv(here("zones.csv"), show_col_types = FALSE)
+  analysis_units <- read_csv(here("analysis_units.csv"), show_col_types = FALSE)
+  
+  required_source_columns <- c(
+    "source_name",
+    "link",
+    "type",
+    "raw_download_available",
+    "variables_used",
+    "credibility",
+    "limitation",
+    "next_step"
+  )
+  
+  stopifnot(all(required_source_columns %in% names(sources)))
+  stopifnot(nrow(zones) == 49)
+  stopifnot(sum(is.na(zones$latitude) | is.na(zones$longitude)) == 0)
+  stopifnot(length(setdiff(unique(zones$district_clean), unique(analysis_units$district_clean))) == 0)
+  stopifnot(nrow(analysis_units) == 38)
+  stopifnot(sum(analysis_units$num_sezs, na.rm = TRUE) == 49)
+  stopifnot(sum(analysis_units$zone_indicator == 1, na.rm = TRUE) == 15)
+  stopifnot(sum(is.na(analysis_units$viirs_annual_mean)) == 0)
+  
+  file.copy(here("sources.csv"), here("Data", "processed", "sources.csv"), overwrite = TRUE)
+  file.copy(here("zones.csv"), here("Data", "processed", "zones.csv"), overwrite = TRUE)
+  file.copy(here("analysis_units.csv"), here("Data", "processed", "analysis_units.csv"), overwrite = TRUE)
+  
+  part3_summary <- analysis_units %>%
+    mutate(
+      district_type = if_else(
+        zone_indicator == 1,
+        "District with at least one SEZ",
+        "District without SEZ"
+      )
+    ) %>%
+    group_by(district_type) %>%
+    summarise(
+      n_districts = n(),
+      total_sezs = sum(num_sezs, na.rm = TRUE),
+      mean_distance_to_chennai_km = round(mean(distance_to_chennai_km, na.rm = TRUE), 1),
+      mean_population_density_per_sq_km = round(mean(population_density_per_sq_km, na.rm = TRUE), 1),
+      mean_viirs_nightlights = round(mean(viirs_annual_mean, na.rm = TRUE), 3),
+      share_coastal = round(mean(coastal_district, na.rm = TRUE), 3),
+      .groups = "drop"
+    )
+  
+  part3_summary_long <- analysis_units %>%
+    mutate(
+      district_type = if_else(
+        zone_indicator == 1,
+        "SEZ districts",
+        "Non-SEZ districts"
+      )
+    ) %>%
+    group_by(district_type) %>%
+    summarise(
+      `Number of districts` = n(),
+      `Total SEZs` = sum(num_sezs, na.rm = TRUE),
+      `Mean distance to Chennai (km)` = round(mean(distance_to_chennai_km, na.rm = TRUE), 1),
+      `Mean population density (persons/sq. km)` = round(mean(population_density_per_sq_km, na.rm = TRUE), 1),
+      `Mean VIIRS night lights` = round(mean(viirs_annual_mean, na.rm = TRUE), 3),
+      `Share coastal` = round(mean(coastal_district, na.rm = TRUE), 3),
+      .groups = "drop"
+    ) %>%
+    pivot_longer(
+      cols = -district_type,
+      names_to = "characteristic",
+      values_to = "value"
+    ) %>%
+    pivot_wider(
+      names_from = district_type,
+      values_from = value
+    )
+  
+  part3_correlation <- analysis_units %>%
+    select(
+      zone_indicator,
+      num_sezs,
+      distance_to_chennai_km,
+      coastal_district,
+      population_density_per_sq_km,
+      viirs_annual_mean
+    ) %>%
+    cor(use = "pairwise.complete.obs") %>%
+    round(3)
+  
+  part3_correlation_df <- as.data.frame(part3_correlation) %>%
+    rownames_to_column("variable")
+  
+  write_csv(part3_summary, here("Output", "Tables", "part3_sez_vs_nonsez_summary.csv"))
+  write_csv(part3_summary_long, here("Output", "Tables", "part3_summary_table_readable.csv"))
+  write_csv(part3_correlation_df, here("Output", "Tables", "part3_correlation_table.csv"))
+  
+  print(part3_summary)
+  print(part3_summary_long)
+  print(part3_correlation_df)
+  message("Flat submission validation completed successfully.")
+  quit(save = "no", status = 0)
+}
 
 
 # ----------------------------
@@ -278,7 +398,7 @@ zones_raw <- tribble(
   
   "TN_SEZ_048", "Integrated Chennai Business Park (India) Pvt. Ltd.", "Tamil Nadu", "Thiruvallur", "Tiruvallur", "Vallur and Edayanchavadi Villages in Ponneri Taluk, Thiruvallur District, Tamil Nadu", "FTWZ", "Operational", NA_real_, NA_real_, "not geocoded", NA_character_, "SRC_001", "",
   
-  "TN_SEZ_049", "Cheyyar SEZ Developers Pvt. Ltd.", "Tamil Nadu", "Villupuram", "Villupuram", "Pelakuppam Village, Villupuram District, Tamil Nadu", "Multi-Sector SEZ", "Operational", NA_real_, NA_real_, "not geocoded", NA_character_, "SRC_001", ""
+  "TN_SEZ_049", "Cheyyar SEZ Developers Pvt. Ltd.", "Tamil Nadu", "Viluppuram", "Viluppuram", "Pelakuppam Village, Viluppuram District, Tamil Nadu", "Multi-Sector SEZ", "Operational", NA_real_, NA_real_, "not geocoded", NA_character_, "SRC_001", ""
 )
 
 # ----------------------------
@@ -323,16 +443,6 @@ zones <- zones_raw %>%
     source_id,
     data_scope,
     notes
-  )
-
-zones <- zones %>%
-  mutate(
-    geocode_reliability = case_when(
-      geocode_precision == "industrial_area_or_zone_approx" ~ "higher",
-      geocode_precision == "town_or_cluster_approx" ~ "medium",
-      geocode_precision == "village_or_area_approx" ~ "medium_low",
-      TRUE ~ "unknown"
-    )
   )
 
 zones <- zones %>%
@@ -431,7 +541,7 @@ zones <- zones %>%
       zone_id == "TN_SEZ_046" ~ 13.2700,   # Nandiyambakkam / Minjur
       zone_id == "TN_SEZ_047" ~ 12.5440,   # Kurubarapalli, Krishnagiri
       zone_id == "TN_SEZ_048" ~ 13.2600,   # Vallur / Edayanchavadi, Ponneri
-      zone_id == "TN_SEZ_049" ~ 12.2200,   # Pelakuppam, Villupuram approx
+      zone_id == "TN_SEZ_049" ~ 12.2200,   # Pelakuppam, Viluppuram approx
       TRUE ~ latitude
     ),
     
@@ -502,6 +612,13 @@ zones <- zones %>%
       ) ~ "town_or_cluster_approx",
       
       TRUE ~ "village_or_area_approx"
+    ),
+
+    geocode_reliability = case_when(
+      geocode_precision == "industrial_area_or_zone_approx" ~ "higher",
+      geocode_precision == "town_or_cluster_approx" ~ "medium",
+      geocode_precision == "village_or_area_approx" ~ "medium_low",
+      TRUE ~ "unknown"
     ),
     
     coordinate_source = "Manual public map search / approximate location assignment",
@@ -763,7 +880,7 @@ population_density_data <- tribble(
   "Dharmapuri", 335, 2011, "Census 2011 / district-level population density",
   "Dindigul", 357, 2011, "Census 2011 / district-level population density",
   "Erode", 394, 2011, "Census 2011 / district-level population density",
-  "Kallakurichi", 430, 2011, "Approximate/harmonized from former Villupuram district area",
+  "Kallakurichi", 430, 2011, "Approximate/harmonized from former Viluppuram district area",
   "Kancheepuram", 927, 2011, "Census 2011 / former district-level population density",
   "Kanniyakumari", 1119, 2011, "Census 2011 / district-level population density",
   "Karur", 371, 2011, "Census 2011 / district-level population density",

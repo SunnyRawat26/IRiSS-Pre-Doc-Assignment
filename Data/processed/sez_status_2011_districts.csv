@@ -4,7 +4,7 @@ pc11_state_id,pc11_district_id,pc11_district_name,zone_indicator,num_sezs,mean_d
 33,604,Kancheepuram,1,20,60.650000000000006,1,909.5,Kancheepuram; Chengalpattu
 33,605,Vellore,1,1,141.43333333333334,0,529.3333333333334,Vellore; Ranipet; Tirupathur
 33,606,Tiruvannamalai,1,1,161,0,399,Tiruvannamalai
-33,607,Viluppuram,0,0,179.65,1,456,Viluppuram; Kallakurichi
+33,607,Viluppuram,1,1,179.65,1,456,Viluppuram; Kallakurichi
 33,608,Salem,1,1,279.5,0,663,Salem
 33,609,Namakkal,0,0,308.5,0,506,Namakkal
 33,610,Erode,1,2,338.4,0,394,Erode
