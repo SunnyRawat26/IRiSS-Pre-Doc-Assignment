@@ -1,0 +1,28 @@
+variable,description
+zone_id,Unique identifier created for each Tamil Nadu SEZ in this dataset.
+country,Country where the SEZ is located. All rows are India.
+state,Indian state where the SEZ is located. All rows are Tamil Nadu.
+district_official,District name as reported or implied in the official SEZ India operational SEZ list.
+district_clean,Cleaned/current district name used for analysis. This may differ from district_official where district boundaries or names have changed.
+developer_or_zone_name,"Name of the SEZ developer, authority, or zone as listed in the official SEZ India source."
+location_text,"Administrative location description from the official SEZ list, usually including village, taluk, city, or industrial park."
+sector,"Sector or activity type of the SEZ, such as IT/ITES, engineering, electronics, footwear, FTWZ, or multi-sector."
+sector_broad,Broad sector category created for easier summary tables and figures.
+status,Operational status of the SEZ. All included rows are operational SEZs.
+latitude,Approximate latitude of the SEZ point location in decimal degrees.
+longitude,Approximate longitude of the SEZ point location in decimal degrees.
+crs,Coordinate reference system for latitude and longitude. Coordinates use WGS84 / EPSG:4326.
+geocode_precision,"Level of precision for the manually assigned coordinates, such as industrial-area approximation, town/cluster approximation, or village/area approximation."
+geocode_reliability,"Qualitative reliability rating for the manually assigned coordinates. Higher means the point is closer to a known SEZ, industrial park, or specific business location; medium means the point is based on a town or cluster; medium_low means the point is based on a broader village or area approximation."
+coordinate_source,Source used to assign latitude and longitude. Coordinates were manually assigned using public map searches and official location text.
+boundary_available,"Indicator for whether official GIS boundaries or polygons were available. In this dataset, official SEZ boundaries were not available."
+coordinate_interpretation,Explanation that coordinates are approximate point locations and should not be interpreted as official SEZ boundaries.
+source_id,"Identifier linking the row to the source audit file, sources.csv."
+data_scope,Description of the dataset scope. This dataset covers operational SEZs in Tamil Nadu from the official SEZ India list.
+include_in_spatial_analysis,Indicator equal to 1 if the observation has non-missing latitude and longitude and can be used in spatial analysis; 0 otherwise.
+notes,"Additional notes about the SEZ, including name changes, district changes, or source-specific limitations."
+notification_date_raw,"Raw notification date text from the SEZ India notified SEZ list. Some rows contain multiple dates because of amendments, additions, or denotifications."
+notification_date,"Official SEZ notification date from the SEZ India notified SEZ list, stored in YYYY-MM-DD format where verified."
+notification_year,Year extracted from notification_date. Used as a proxy for SEZ establishment year in the dynamic extension.
+notification_date_source,"Source used to verify the notification date, usually the official SEZ India notified SEZ list."
+notification_date_note,"Notes on notification-date matching, including whether multiple dates were listed or whether the date was not yet verified."

@@ -1,0 +1,53 @@
+\documentclass[10.5pt]{article}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{float}
+
+\setlength{\parskip}{0.25em}
+\setlength{\parindent}{0pt}
+
+\title{Memo: Constructing and Describing Tamil Nadu SEZ Locations}
+\author{Sunny Rawat}
+\date{May 4, 2026}
+
+\begin{document}
+\maketitle
+
+\section*{Overview}
+
+I study the location of Special Economic Zones (SEZs) in Tamil Nadu, India. I chose Tamil Nadu because it has a relatively large number of operational SEZs and meaningful variation across districts in urbanization, coastal access, and economic activity. The exercise is descriptive rather than causal. I use official SEZ lists as the backbone, manually geocode zone locations, merge district-level characteristics, and compare SEZ and non-SEZ districts.
+
+\section*{Part 1: Zone Data Construction}
+
+I constructed \texttt{zones.csv} using the SEZ India operational SEZ list as the backbone source. The dataset contains 49 operational SEZs in Tamil Nadu, with zone/developer name, official district, cleaned current district, location text, sector, status, approximate latitude/longitude, geocoding precision, and source information. I also include \texttt{zones\_dictionary.csv} to document each variable.
+
+The official list provides administrative location descriptions but not GIS polygons or standardized coordinates. Therefore, I manually geocoded SEZs using the reported village, taluk, city, industrial park, or nearby landmark. I treat these as approximate point locations, not official SEZ boundaries. To be transparent, I add geocoding precision and reliability variables. A key limitation is that some coordinates are approximate and some districts have changed over time, so point locations may not perfectly align with current district boundaries.
+
+\section*{Part 2: Additional Spatial and Economic Data}
+
+I created \texttt{analysis\_units.csv} at the district level. Each row is a Tamil Nadu district, with a \texttt{zone\_indicator} equal to one if the district contains at least one operational SEZ and zero otherwise. This creates the comparison group of non-SEZ districts.
+
+I merge several additional characteristics: distance to Chennai, coastal district status, population density, and night lights. Distance to Chennai is calculated using the Haversine formula from approximate district-center coordinates. Coastal status is manually coded. Population density is based mainly on Census 2011 district-level values; values for newer districts are approximate/harmonized because Tamil Nadu created several districts after 2011. I also link SHRUG VIIRS night lights as a proxy for economic activity. Since SHRUG district data use 2011 Census districts, newer districts are mapped back to their parent 2011 districts when using night-light data.
+
+\section*{Part 3: SEZ and Non-SEZ District Comparison}
+
+I compare SEZ and non-SEZ districts using maps, summary statistics, and correlations. The first map shades districts by population density and overlays operational SEZ points and major cities. The second map classifies districts based on whether they contain mapped SEZ points. I also create a summary table comparing SEZ and non-SEZ districts across distance to Chennai, coastal status, population density, and VIIRS night lights, along with a correlation table and bar plot.
+
+The descriptive results should not be interpreted causally. SEZ districts tend to be located near major urban and industrial corridors, especially around Chennai, Chengalpattu/Kancheepuram, Coimbatore, and other established economic centers. This pattern is consistent with SEZs being located closer to infrastructure and existing economic activity. However, the comparison is limited because SEZ placement is not random and districts with SEZs may have differed from non-SEZ districts before the zones were established.
+
+\section*{Part 4: Dynamic Extension}
+
+For a dynamic extension, I explored annual night lights as an outcome. I initially considered using SEZ notification year as treatment timing for a difference-in-differences design. However, this design is weak in this setting because many Tamil Nadu SEZs were notified before the VIIRS night-lights panel begins. Later SEZ additions often occur in districts that already had SEZs, making it difficult to isolate the effect of a new SEZ from the effect of existing SEZ exposure.
+
+Instead, I construct a descriptive district-year panel using SHRUG VIIRS night lights. Because SHRUG uses 2011 Census district boundaries, I aggregate SEZ status to the 2011 district level and compare night-light trends between SEZ and non-SEZ districts over time. This exercise can show whether SEZ districts have higher or faster-growing night lights, but it is not causal. A stronger future design would require verified establishment or operational start dates, pre-treatment outcome data before SEZ creation, and a credible comparison group.
+
+\section*{AI Disclosure}
+
+I used AI tools to help brainstorm the workflow, debug R code, organize the memo, and improve wording. I reviewed and edited the code, data decisions, and final interpretation myself.
+
+\end{document}

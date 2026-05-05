@@ -1,0 +1,33 @@
+pc11_state_id,pc11_district_id,pc11_district_name,zone_indicator,num_sezs,mean_distance_to_chennai_km,coastal_district,mean_population_density_per_sq_km,current_districts_mapped
+33,602,Thiruvallur,1,4,39.8,1,1098,Tiruvallur
+33,603,Chennai,1,5,0,1,26553,Chennai
+33,604,Kancheepuram,1,20,60.650000000000006,1,909.5,Kancheepuram; Chengalpattu
+33,605,Vellore,1,1,141.43333333333334,0,529.3333333333334,Vellore; Ranipet; Tirupathur
+33,606,Tiruvannamalai,1,1,161,0,399,Tiruvannamalai
+33,607,Viluppuram,0,0,179.65,1,456,Viluppuram; Kallakurichi
+33,608,Salem,1,1,279.5,0,663,Salem
+33,609,Namakkal,0,0,308.5,0,506,Namakkal
+33,610,Erode,1,2,338.4,0,394,Erode
+33,611,The Nilgiris,0,0,430.7,0,287,Nilgiris
+33,612,Dindigul,0,0,391.6,0,357,Dindigul
+33,613,Karur,0,0,335.6,0,371,Karur
+33,614,Tiruchirappalli,1,1,306.6,0,602,Tiruchirappalli
+33,615,Perambalur,0,0,255,0,321,Perambalur
+33,616,Ariyalur,0,0,251.9,0,390,Ariyalur
+33,617,Cuddalore,0,0,158.5,1,704,Cuddalore
+33,618,Nagapattinam,0,0,245.95000000000002,1,694,Nagapattinam; Mayiladuthurai
+33,619,Thiruvarur,0,0,266.7,1,533,Tiruvarur
+33,620,Thanjavur,0,0,283.5,0,691,Thanjavur
+33,621,Pudukkottai,0,0,340.2,0,348,Pudukkottai
+33,622,Sivaganga,0,0,409.1,0,324,Sivaganga
+33,623,Madurai,1,2,422.1,0,819,Madurai
+33,624,Theni,0,0,457.5,0,433,Theni
+33,625,Virudhunagar,0,0,464.8,0,454,Virudhunagar
+33,626,Ramanathapuram,0,0,442,1,320,Ramanathapuram
+33,627,Thoothukkudi,1,1,533.8,1,378,Thoothukudi
+33,628,Tirunelveli,1,3,559.25,0,435,Tirunelveli; Tenkasi
+33,629,Kanniyakumari,0,0,630.5,1,1119,Kanniyakumari
+33,630,Dharmapuri,0,0,252.7,0,335,Dharmapuri
+33,631,Krishnagiri,1,3,231.7,0,370,Krishnagiri
+33,632,Coimbatore,1,4,427.4,0,748,Coimbatore
+33,633,Tiruppur,0,0,386.8,0,478,Tiruppur

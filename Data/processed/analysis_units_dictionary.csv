@@ -1,0 +1,25 @@
+variable,description
+country,Country for the analysis unit. All rows are India.
+state,Indian state for the analysis unit. All rows are Tamil Nadu.
+spatial_unit,"Level of observation used for the analysis. In this file, each row is a district."
+district_clean,Cleaned/current Tamil Nadu district name used as the district-level analysis unit.
+district_lat,"Approximate latitude of the district center or main district town, in decimal degrees."
+district_lon,"Approximate longitude of the district center or main district town, in decimal degrees."
+crs,Coordinate reference system for district_lat and district_lon. Coordinates use WGS84 / EPSG:4326.
+zone_indicator,"Indicator equal to 1 if the district contains at least one operational SEZ from the Tamil Nadu SEZ dataset, and 0 otherwise."
+num_sezs,Number of operational SEZs from zones.csv located in the district.
+distance_to_chennai_km,"Haversine distance in kilometers from the approximate district center to Chennai, Tamil Nadu's main economic and administrative center."
+coastal_district,"Indicator equal to 1 if the district has direct coastline access, and 0 otherwise."
+population_density_per_sq_km,"Population density of the district, measured as persons per square kilometer. Values are based on Census 2011 district-level population density where available; newer post-2011 districts use approximate/harmonized values."
+population_density_year,Reference year for the population density variable. Most values are based on 2011 Census data.
+population_density_source,"Source note for the population density value, including whether the value is direct Census 2011 district data or an approximate/harmonized value for newer districts."
+distance_method,Description of how distance_to_chennai_km was calculated.
+pc11_state_id,2011 Census state identifier used to merge SHRUG VIIRS night lights.
+pc11_district_id,2011 Census district identifier used to merge SHRUG VIIRS night lights.
+pc11_district_name,Name of the 2011 Census district used by the night lights crosswalk.
+district_crosswalk_note,Note explaining whether a current district directly matched a 2011 district or was mapped to a parent 2011 district.
+nightlights_year,Year of the SHRUG VIIRS night lights measure used in analysis_units.csv.
+nightlights_category,SHRUG VIIRS category used; average-masked is used here.
+viirs_annual_mean,Mean VIIRS night lights detected within the 2011 district polygon.
+viirs_annual_sum,Total VIIRS night lights detected within the 2011 district polygon.
+viirs_annual_num_cells,Number of raster cells used to calculate district-level VIIRS night lights.

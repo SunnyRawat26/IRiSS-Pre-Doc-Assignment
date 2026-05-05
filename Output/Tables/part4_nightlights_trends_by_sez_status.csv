@@ -1,0 +1,25 @@
+year,district_type,n_districts,mean_viirs_annual_mean,median_viirs_annual_mean,mean_log_viirs
+2012,Non-SEZ district,19,0.5,0.479,0.392
+2012,SEZ district,13,2.722,0.768,0.824
+2013,Non-SEZ district,19,0.547,0.491,0.422
+2013,SEZ district,13,2.716,0.807,0.848
+2014,Non-SEZ district,19,0.609,0.586,0.461
+2014,SEZ district,13,2.909,0.934,0.908
+2015,Non-SEZ district,19,0.663,0.674,0.494
+2015,SEZ district,13,3.05,1,0.944
+2016,Non-SEZ district,19,0.605,0.575,0.458
+2016,SEZ district,13,3.071,0.963,0.936
+2017,Non-SEZ district,19,0.671,0.625,0.5
+2017,SEZ district,13,3.269,1.037,0.98
+2018,Non-SEZ district,19,0.684,0.642,0.507
+2018,SEZ district,13,3.364,1.037,0.992
+2019,Non-SEZ district,19,0.776,0.742,0.559
+2019,SEZ district,13,3.586,1.087,1.029
+2020,Non-SEZ district,19,0.873,0.842,0.612
+2020,SEZ district,13,3.548,1.174,1.055
+2021,Non-SEZ district,19,0.936,0.903,0.646
+2021,SEZ district,13,3.687,1.303,1.091
+2022,Non-SEZ district,19,0.973,0.996,0.665
+2022,SEZ district,13,3.969,1.318,1.145
+2023,Non-SEZ district,19,1.154,1.119,0.752
+2023,SEZ district,13,4.419,1.649,1.245
